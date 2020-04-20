@@ -1,0 +1,112 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+  server:
+    servlet:
+      context-path: /actuator
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
+spring:
+  application:
+    name: module-authority
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.22.1.21:3306/authority?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Developer@2019
+    type: com.alibaba.druid.pool.DruidDataSource
+  druid:
+    borrowConnectionTimeout: 30000
+    maxActive: 20
+    maxWait: 10000
+    minEvictableIdleTimeMillis: 300000
+    minIdle: 3
+    password: developer@2019
+    timeBetweenEvictionRunsMillis: 60000
+    url: jdbc:mysql://192.168.10.24:3306/tourism_quartz?useSSL=true
+    username: root
+    validationQuery: SELECT 'x' # 解决mysql8小时问题
+  redis:
+    database: 1
+    host: 172.22.1.21
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    password: wlw@redis
+    port: 6379
+    timeout: 500000000ms
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  global-config:
+    db-config:
+      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+      id-type: ASSIGN_UUID
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: ignored
+      #驼峰下划线转换
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    super-mapper-class: com.baomidou.mybatisplus.core.mapper.BaseMapper
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+  check-config-location: true
+  type-aliases-package: com.job.server.
+
+jwt:
+  header: Authorization
+  tokenHead: 'Bearer '
+jasypt:
+  encryptor:
+    password: EbfYkitulv73I2p0mXI50JMXoaxZTKJ1
+pre:
+  security:
+    social:
+      gitee:
+        app-id: 663221d0507f284b2265b7b8d95a9c1293bdd5adc7b4a35c9748fd3875746e67
+        app-secret: 411f5eeabb0365664fc2e82ed735ec688152127838ad145159f19c90170ebde1
+        provider-id: gitee
+      github:
+        app-id: 0e4b224d9c629ce3f3ea
+        app-secret: 31fc9751b005f5e40113fc3f07b5beae0a7dad25
+        provider-id: github
+      qq:
+        app-id: 101715108
+        app-secret: 453e1be400a9cf207fea273f0d2c6248
+        provider-id: qq
+      weixin:
+        app-id: wx27e0de97cfa87385
+        app-secret: 1f8958cc2cb233d7a4f8b7d364bcb72c
+        provider-id: weixin
+  tenant:
+    ignoreTenantTables:
+      - sys_tenant
+      - sys_menu
+      - sys_user_role
+      - sys_role_menu
+      - sys_role_dept
+      - sys_user_role
+      - sys_dict_item
+      - TABLES
+      - COLUMNS
+      - sys_job
+    tenantIdColumn: tenant_id
+  url:
+    address: http://localhost:9528
